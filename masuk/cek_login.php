@@ -8,24 +8,39 @@ function anti_injection($data)
 }
 
 $username = anti_injection($_POST['username']);
-$pass     = anti_injection(md5($_POST['password']));
+$password = $_POST['password'];
 
-// pastikan username dan password adalah berupa huruf atau angka.
-if (!ctype_alnum($username) or !ctype_alnum($pass)) {
+// pastikan username adalah berupa huruf atau angka.
+if (!ctype_alnum($username)) {
   echo "<link href=css/style.css rel=stylesheet type=text/css>";
   echo "<div class='error msg'>Injeksi Gagal</div>";
 } else {
   $login = mysqli_query(
     $GLOBALS["___mysqli_ston"],
-    "SELECT * FROM admin WHERE username='$username' AND password='$pass' AND blokir='N'"
+    "SELECT * FROM admin WHERE username='$username' AND blokir='N'"
   );
-  $ketemu = mysqli_num_rows($login);
   $r = mysqli_fetch_array($login);
 
+  $cocok = false;
+  if ($r) {
+    if (password_verify($password, $r['password'])) {
+      $cocok = true;
+    } elseif ($r['password'] === md5($password)) {
+      // akun lama masih memakai md5, tingkatkan ke bcrypt setelah login berhasil
+      $cocok = true;
+      $hash_baru = password_hash($password, PASSWORD_BCRYPT);
+      $id_admin_lama = (int) $r['id_admin'];
+      mysqli_query(
+        $GLOBALS["___mysqli_ston"],
+        "UPDATE admin SET password='$hash_baru' WHERE id_admin='$id_admin_lama'"
+      );
+      $r['password'] = $hash_baru;
+    }
+  }
+
   // Apabila username dan password ditemukan
-  if ($ketemu > 0) {
+  if ($cocok) {
     session_start();
-    echo $ketemu;
     include "timeout.php";
 
     $_SESSION['idadmin']    = $r['id_admin'];

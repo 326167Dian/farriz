@@ -212,7 +212,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 				echo "<script type='text/javascript'>alert('Input Password hanya huruf dan angka yang diijinkan, dan tidak boleh menggunakan spasi ...!');history.go(-1);</script>";
 			} else {
 
-				$pass = md5($_POST['password']);
+				$pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
 
 				$cekuser = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM admin WHERE username='$_POST[username]'");
 				$ketemu = mysqli_num_rows($cekuser);
@@ -417,7 +417,7 @@ if (empty($_SESSION['username']) and empty($_SESSION['passuser'])) {
 					echo "<script type='text/javascript'>alert('Ubah Password hanya huruf dan angka yang diijinkan, dan tidak boleh menggunakan spasi ...!');history.go(-1);</script>";
 				} else {
 
-					$pass = md5($_POST['password']);
+					$pass = password_hash($_POST['password'], PASSWORD_BCRYPT);
 					mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE admin SET password = '$pass',
                                 nama_lengkap = '$_POST[nama_lengkap]',
                                 no_telp = '$_POST[no_telp]',

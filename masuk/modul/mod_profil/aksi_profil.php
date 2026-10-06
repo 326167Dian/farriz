@@ -22,7 +22,7 @@ if ($module=='profil' AND $act=='update_profil'){
   }
   // Apabila password diubah
   else{
-    $pass=md5($_POST['password']);
+    $pass=password_hash($_POST['password'], PASSWORD_BCRYPT);
     mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE admin SET password        = '$pass',
                                   nama_lengkap    = '$_POST[nama_lengkap]',
                                   no_telp         = '$_POST[no_telp]'
