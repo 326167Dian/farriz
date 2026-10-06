@@ -54,6 +54,16 @@ if ($_GET['module'] == 'home') {
                     <BR>
                     Silahkan klik menu pilihan yang berada di sebelah kiri untuk mengelola aplikasi
                 </p>
+                silahkkan buka versi baru mysifa di <br>
+
+                <span style="font-size:18px">
+                    <a href="http://farrizonline.my.id" target="_blank">http://farrizonline.my.id</a> (untuk pelanggan) <br>
+                    <a href="http://farrizonline.my.id/staf" target="_blank">http://farrizonline.my.id/staf</a> (untuk dashboard e-commerce) <br>
+                    <a href="http://farrizonline.my.id/inventory" target="_blank">http://farrizonline.my.id/inventory</a> (untuk inventory) <br>
+                </span>
+
+                username : sama <br>
+                password default : 12345
             </div>
 
 
